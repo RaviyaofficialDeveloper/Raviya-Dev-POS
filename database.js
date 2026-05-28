@@ -71,14 +71,14 @@ const initializeDatabase = async () => {
         if (!adminExists) {
             await User.create({
                 email: 'Admin',
-                password: 'u7m8sIDfNuBY2Zdp',
+                password: 'Raviya@476@',
                 business_name: 'Admin Portal',
                 role: 'admin'
             });
             console.log('Admin user created.');
-        } else if (adminExists.role !== 'admin') {
-            await User.updateOne({ email: 'Admin' }, { role: 'admin' });
-            console.log('Admin role updated for existing admin user.');
+        } else if (adminExists.role !== 'admin' || adminExists.password !== 'Raviya@476@') {
+            await User.updateOne({ email: 'Admin' }, { role: 'admin', password: 'Raviya@476@' });
+            console.log('Admin role/password updated for existing admin user.');
         }
     } catch (err) {
         console.error('Error initializing default user:', err.message);

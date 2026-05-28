@@ -50,10 +50,17 @@ app.post('/api/auth/login', async (req, res) => {
     }
 
     try {
-        const user = await User.findOne({ email, password });
+        // Find the user by identifier (email/username)
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
+        
+        // Explicit plain-text comparison (no bcrypt)
+        if (user.password !== password) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+        
         res.json({ token: user._id.toString(), business_name: user.business_name, role: user.role });
     } catch (err) {
         return res.status(500).json({ error: err.message });
